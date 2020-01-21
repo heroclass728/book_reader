@@ -1,0 +1,22 @@
+.btn-read {
+    color: #fff !important;
+    background: #3ea850;
+    border: 2px solid #41a452;
+    border-right: 1px solid #439850;
+    border-radius: 3px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    cursor: pointer;
+    font-size: .75em;
+    width: 100%;
+    padding: 7px 0;
+    margin: 0;
+    text-align: center;
+    text-decoration: none !important;
+}
+
+.btn-read:hover {
+    text-decoration: none;
+    color: #fff;
+    background: #0FA83D;
+}

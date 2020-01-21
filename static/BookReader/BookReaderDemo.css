@@ -1,0 +1,19 @@
+/*
+ * Custom overrides for BookReader Demo.
+ */
+body {
+    background-color: white;
+}
+
+/* Hide print and embed functionality */
+.BRtoolbar .embed, .print {
+    display: none;
+}
+
+.BookReader {
+    width:918px;
+    height: 600px;
+    overflow: hidden;
+    margin: 20px;
+    background-color: white;
+}

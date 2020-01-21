@@ -1,0 +1,361 @@
+/* Constants */
+.fnt-12 { font-size: 12px; }
+.fnt-14 { font-size: 14px; }
+.fnt-16 { font-size: 16px; }
+
+/* hide mobile version by default */
+.logo .mobile {
+  display: none;
+}
+
+.header .logo {
+  min-width: unset;
+}
+
+.header_wrapper {
+  max-width: 960px; 
+  padding: 0;
+}
+
+#main-account-dropdown .dropdown-menu {
+  left: unset;
+  right: 0;
+  top: unset;
+}
+
+.header .search-open.mobile {
+  display: inline-block;
+}
+
+.header .search-open.desktop {
+  float: right;
+  margin-top: 3px;
+}
+
+.account-component {
+  height: 40px;
+}
+
+.account-component button.avatar {
+  margin-left: 5px;
+  width: 32px !important;
+  height: 32px !important;
+  margin-top: 3px;
+  margin-bottom: 5px;
+}
+
+.sky-form .button {
+  background: #1abc9c !important;
+}
+
+a.make_donation {
+  color: white !important;
+}
+
+@media (min-width: 960px) {
+  .olform .input {
+    width: unset !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .header .search-open {
+    width: 250px;
+  }  
+}
+
+@media (min-width: 1200px) {
+  .header .search-open {
+    width: 280px;
+  }  
+}
+
+@media (max-width: 1138px) {
+  .form-block {
+    padding-right: 0 !important;
+     padding-left: 0 !important; 
+  }
+}
+
+/*Responsive Navbar*/
+@media (max-width: 991px) {
+  .header_wrapper {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
+  .header .logo {
+    width: 64px;
+  }
+  .header .topbar {
+    margin-bottom: 25px;
+  }
+  .account-component button.avatar {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .header .search-open.desktop {
+    display: none !important;
+  }
+  .header .search-btn {
+    display: inline-block !important;
+  }
+  .header .search-btn.fa-search {
+    margin-top: 12px;
+  }
+  .header .navbar-toggle {
+    padding: 7px 10px 4px;
+    margin-top: 4px;
+  }
+  .account-component {
+    height: 32px;
+  }
+  .header .account-component.desktop {
+    display: none;
+  }
+  .header .account-component.mobile {
+    display: block !important;
+    margin-right: -6px;
+  }
+  .header .search-btn {
+    color: #999;
+    width: 35px;
+    height: 34px;
+    background: #eee;
+    line-height: 12px;
+    text-align: center;
+    border-bottom: none;
+    cursor: pointer;
+    min-width: 35px;
+    font-size: 15px;
+    padding: 11px 0 12px;
+    display: inline-block;
+  }
+  .header .search-open.mobile {
+    width: calc(100% - 40px);
+  }
+  .form-block {
+    padding: 30px !important;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .mobile_search_wrapper {
+    width: calc(100% - 41px);  
+  }
+}
+
+/* when screen is less than 600px wide
+   show mobile version and hide desktop */
+@media (max-width: 600px) {
+  .logo .mobile {
+    display: block;
+  }
+  .logo .desktop {
+    display: none;
+  }
+  .form-block {
+    padding: 0px !important;
+  }
+}
+
+@media (max-width: 375px) {
+  .header .logo {
+    min-width: 55px;
+  }
+}
+
+@media (max-width: 320px) {
+  .header .logo {
+    min-width: 55px;
+  }
+}
+
+.stars_5 {
+    width: 80px;
+    height: 16px;
+    background: url("../img/rating.png");
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.stars_4 {
+    width: 80px;
+    height: 16px;
+    background: url("../img/rating.png") -17px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.stars_3 {
+    width: 80px;
+    height: 16px;
+    background: url("../img/rating.png") -32px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+
+}
+.stars_2 {
+    width: 80px;
+    height: 16px;
+    background: url("../img/rating.png") -49px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.stars_1 {
+    width: 80px;
+    height: 16px;
+    background: url("../img/rating.png") -66px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.page-banner-black {
+    background: #e2dcc5;
+}
+
+a.ghost-btn {
+    color: black !important;
+}
+
+/*Revolution Slider (Main)
+------------------------------------*/
+.tp-banner-container ul li,
+.fullscreenbanner-container ul li {
+  list-style: none;
+  visibility: hidden;
+}
+
+.tp-bullets.preview4 .bullet {
+  border-radius: 10px !important;
+}
+
+.tp-banner-container a.btn-u,
+.tp-banner-container a.btn-u:hover {
+  color: #fff;
+  border: solid 1px transparent;
+}
+
+.tp-banner-container a.re-btn-brd {
+  background: none;
+  border: solid 1px #fff;
+}
+
+.tp-banner-container a.re-btn-brd:hover {
+  color: #555;
+  background: #fff;
+}
+
+/*Fullwidth*/
+.tp-banner-container .btn-u.btn-brd {
+  font-weight: 400;
+}
+
+.tp-banner-container {
+  position: relative;
+}
+
+/*Fullscreen*/
+.fullscreen-container {
+  width:100%;
+  position:relative;
+  padding:0;
+}
+
+/*Slider Contents v1*/
+.revolution-mch-1:after {
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  content: ' ';
+  position: absolute;
+  background: rgba(0,0,0,0.3);
+}
+
+.revolution-ch1 {
+  color: #fff;
+  font-size: 50px;
+  font-weight: 200;
+  line-height: 60px;
+  padding: 30px 50px;
+  text-align: center;
+  border: 1px solid #fff;
+  text-transform: uppercase;
+  font-family: "Open Sans", sans-serif;
+}
+
+.revolution-ch2 {
+  color: #fff;
+  font-size: 30px;
+  max-width: 470px;
+  line-height: 32px;
+  position: relative;
+  text-align: center;
+  font-weight: normal;
+  text-transform: uppercase;
+  font-family: "Open Sans", sans-serif;
+}
+
+.revolution-ch2:after {
+  left: 50%;
+  width: 70px;
+  height: 2px;
+  content: ' ';
+  bottom: -20px;
+  background: #fff;
+  margin-left: -35px;
+  position: absolute;
+}
+
+.revolution-ch3 {
+  color: #fff;
+  font-size: 50px;
+  font-weight: 200;
+  line-height: 60px;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: "Open Sans", sans-serif;
+}
+
+.revolution-ch4 {
+  color: #fff;
+  font-size: 18px;
+  max-width: 300px;
+  line-height: 30px;
+  text-align: right;
+  position: relative;
+  font-weight: normal;
+  font-family: "Open Sans", sans-serif;
+}
+
+.revolution-ch5 {
+  color: #fff;
+  font-size: 50px;
+  font-weight: 200;
+  line-height: 60px;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: "Open Sans", sans-serif;
+}
+
+/* login page */
+.btn-facebook {
+  background-color: transparent;
+  border-color: #4863ae;
+  color: #4863ae;
+}
+.btn-facebook:hover {
+  background-color: #4863ae;
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+.btn-twitter {
+    background-color: transparent;
+    border-color: #46c0fb;
+    color: #46c0fb;
+}
+.btn-twitter:hover {
+  background-color: #46c0fb;
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
