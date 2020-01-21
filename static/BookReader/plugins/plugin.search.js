@@ -191,8 +191,8 @@ BookReader.prototype.search = function(term, options) {
         "/search_word/",
         {
             search_word: term,
-            // current_file: this.bookTitle
-            current_file: "195960 Di Vaartak_41286_16_pages"
+            current_file: this.bookTitle
+            // current_file: "195960 Di Vaartak_41286_16_pages"
         },
         function (data) {
             // console.log(data)
