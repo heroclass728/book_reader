@@ -4,6 +4,17 @@ import random
 import string
 
 
+def create_directory_if_not_exists(dir_name):
+
+    if not os.path.exists(dir_name):
+        upper_dir = os.path.dirname(dir_name)
+        if not os.path.exists(upper_dir):
+            os.mkdir(upper_dir)
+        os.mkdir(dir_name)
+
+    return
+
+
 def delete_files_in_folder(folder):
 
     for filename in os.listdir(folder):
