@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Log In{% endblock %}
+{% load socialaccount %}
+{% load static %}
+{% providers_media_js %}
+
+{% block extra_css %}
+  <link href="{% static 'css/page-user.css' %}" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="{% static 'css/pages/page_log_reg_v4.css' %}">
+{% endblock extra_css %}
+
+{% block content_head %}
+  <h1>Login To Your Account</h1>
+{% endblock %}
+
+{% block content %}
+
+  {% if form.errors %}
+    <div class="alert alert-danger">
+      {{ form.errors }}
+    </div>
+  {% endif %}
+
+  <div class="row equal-height-columns">
+    <div class="col-md-3 col-sm-2 col-xs-1"></div>
+    <div class="col-md-6 col-sm-8 col-xs-10 form-block equal-height-column">
+      <form id="register" method="post" class="login" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        <div class="login-block">
+          <div class="input-group margin-bottom-20">
+            <span class="input-group-addon rounded-left"><i class="icon-user  color-sea"></i></span>
+            <input type="text" class="form-control rounded-right" id="username" name="login" value="" placeholder="Username" required autocorrect="off" />
+          </div>
+
+          <div class="input-group margin-bottom-20">
+            <span class="input-group-addon rounded-left"><i class="icon-lock color-sea"></i></span>
+            <input type="password" class="form-control rounded-right" id="password" name="password" value="" placeholder="Password" required />
+          </div>
+
+          <div class="checkbox">
+            <ul class="list-inline">
+              <li class="pull-right">
+                <a href="{% url 'account_reset_password' %}">Forgot password?</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="row margin-bottom-70">
+            <div class="col-md-12">
+              {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+              {% endif %}
+              <input value="Log In" type="submit" class="login-submit btn-u btn-u-sea btn-block rounded" title="Log In"/>
+            </div>
+          </div>
+
+          <div class="social-login text-center">
+            <div class="or rounded-x">Or</div>
+            <ul class="list-inline margin-bottom-20">
+              <li>
+                <a class="btn rounded btn-lg btn-facebook" href="{% provider_login_url 'facebook' %}"><i class="fa fa-facebook"></i> Facebook Log in
+                </a>
+              </li>
+              <li>
+                <a class="btn rounded btn-lg btn-twitter" href="{% provider_login_url 'twitter' %}"><i class="fa fa-twitter"></i> Twitter Log in
+                </a>
+              </li>
+            </ul>
+            <p>Don't have an account? <a href="{% url 'account_signup' %}">Create New</a></p>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-2 col-sm-1"></div>
+  </div>
+
+{% endblock %}

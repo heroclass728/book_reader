@@ -1,0 +1,121 @@
+{% extends 'clean.html' %}
+{% block title %}{{ object }}{% endblock title %}
+
+{% block content %}
+
+  <div class="container donation_campaign">
+
+    <div class="col-md-6 col-md-offset-3">
+      <h5>Support campaign</h5>
+      <h1>{{ object|upper }}</h1>
+      <p><a class="back_to_campaigns" href="{% url 'donate' %}">
+        <i class="fa fa-chevron-left"></i > Back to campaigns</a></p>
+
+      <div class="give_now mt-50">
+        <div style="margin-left: 15px;" class="pt-10">
+          <div class="col-md-6">
+            <form action="{% url 'process_payment' %}" method="post">
+              {% csrf_token %}
+              <div class="pull-left">
+                <input type="number" value="{{ amount }}" name="amount"
+                       class="form-control" style="height: 70px; font-size: 34px" required>
+              </div>
+          </div>
+          <div class="col-md-6">
+            <ul>
+              <li><input type="radio" name="donation_type" value="1" checked>One-time Donation</li>
+              <li><input type="radio" name="donation_type" value="2">Monthly recurring donation</li>
+            </ul>
+          </div>
+          <div class="clearfix"></div>
+          <p class="mt-20">Payment information</p>
+          <button class="btn btn-secondary" disabled>Credit Card</button>
+        </div>
+
+        <p class="well_header">Pay by credit card</p>
+        <div class="well cc_form" style="margin-top: -11px;">
+          <div class="col-md-12">
+            <label for="id_cc_number">Card Number</label>
+            {{ form.number }}
+          </div>
+          <div class="col-md-6">
+            <label style="display: block" for="id_expiration">Expiration</label>
+            {{ form.expiration }}
+          </div>
+          <div class="col-md-6">
+            <label for="id_cvc">Verification</label>
+            {{ form.cvc }}
+          </div>
+          <div class="col-md-12">
+            <label for="id_cc_name">Name on Card</label>
+            {{ form.name }}
+          </div>
+          <div class="clearfix"></div>
+
+          <div class="mt-20">
+            <p><i class="fa fa-lock"></i> SSL Encrypted and Secured</p>
+          </div>
+        </div>
+      </div>
+      <div class="cc_form">
+        <div class="col-md-6">
+          <label for="id_first_name">First Name</label>
+          {{ donation_form.first_name }}
+        </div>
+        <div class="col-md-6">
+          <label for="id_last_name">Last Name</label>
+          {{ donation_form.last_name }}
+        </div>
+        <div class="col-md-12">
+          <label for="id_email">Email</label>
+          {{ donation_form.email }}
+        </div>
+        <div class="col-md-12">
+          <label for="id_phone_number">Phone Number</label>
+          {{ donation_form.phone_number }}
+        </div>
+        <div class="col-md-12">
+          <label for="id_address">Street Address</label>
+          {{ donation_form.address }}
+        </div>
+        <div class="col-md-12">
+          {{ donation_form.address_2 }}
+        </div>
+        <div class="col-md-6">
+          <label for="id_city">City</label>
+          {{ donation_form.city }}
+        </div>
+        <div class="col-md-6">
+          <label for="id_province">Province</label>
+          {{ donation_form.province }}
+        </div>
+        <div class="col-md-6">
+          <label for="id_postal">Postal Code</label>
+          {{ donation_form.postal_code }}
+        </div>
+        <div class="col-md-6">
+          {{ countries }}
+        </div>
+        <div class="col-md-12">
+          <label for="id_address">On Behalf Of</label>
+          {{ donation_form.on_behalf_of }}
+        </div>
+        <div class="col-md-12">
+          <button class="btn btn-primary payment_details" data-campaign="{{ object.id }}"
+          ><i class="fa fa-credit-card"></i> Donate Now</button>
+        </div>
+        <input type="hidden" name="campaign_id" value="{{ object.id }}">
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+{% endblock content %}
+{% block extra_js %}
+  <script>
+    $('form').submit(function() {
+      $(this).find("button[type='submit']").prop('disabled',true);
+    });
+  </script>
+{% endblock extra_js %}

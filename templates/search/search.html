@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Search inside our books{% endblock title %}
+{% block extra_css %}
+  <link href="{% static 'css/page-user.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block content_head %}<span class="darkgreen"><strong></strong></span>{% endblock %}
+{% block content %}
+
+  <div id="contentBody">
+    <div class="section">
+
+      <form method="get" action="/search/" class="siteSearch olform">
+        <label for="q" class="hidden">Keywords</label>
+        <input type="text" name="q" id="q" value="{{ request.GET.q }}" size="100"/>
+        <button type="submit" class="larger" id="searchsubmit">Search</button>
+        <span class="mode-options">
+      </span>
+      </form>
+    </div>
+    <div class="shift">00</div>
+    <div class="resultsContainer search-results-container">
+      <div id="searchResults">
+        <ul class="list-books" id="siteSearch">
+          {% for result in page.object_list %}
+            <li class="searchResultItem">
+  <span class="bookcover">
+    <a href="{% url 'book_detail' result.object.book.slug %}"><img itemprop="image"
+                                                                   src="{{ result.object.book.get_cover }}"
+                                                                   alt="{{ result.object.book }}"
+                                                                   title="{{ result.object.book }}"></a>
+  </span>
+              <span class="details">
+      <span class="resultTitle">
+         <h3 class="booktitle">
+           <a itemprop="name" href="{% url 'book_detail' result.object.book.slug %}"
+              class="results">{{ result.object.book }}</a>
+           ({{ result.object.book.published }})
+         </h3>
+      </span>
+      <span class="bookauthor">by
+        <a itemprop="author" href="" class="results">{{ result.object.book.creator }}</a>
+      </span>
+      <span class="resultPublisher">
+      </span>
+
+      <div class="serp-extras">
+
+<section class="fulltext-excerpts" aria-label="">
+  <ul>
+    <li class="fulltext-excerpt page_text" >
+      …{{ result.object.text|truncatechars:"100" }}
+    </li>
+  </ul>
+</section>
+
+<p class="center">Borrow &amp; <a
+    href="{{ result.object.book.get_read_url }}?#page/n{{ result.object.page_num }}/mode/2up">See All Results</a></p>
+      </div>
+
+  </span>
+
+              <div class="searchResultItemCTA">
+                <div class="searchResultItemCTA-lending">
+                  {{ result.object.book.get_action_button|safe }}
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+
+  {% if page.has_previous or page.has_next %}
+    <div>
+      {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo;
+      Previous{% if page.has_previous %}</a>{% endif %}
+      |
+      {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;
+      {% if page.has_next %}</a>{% endif %}
+    </div>
+  {% endif %}
+
+
+
+{% endblock content %}
+
+{% block extra_js %}
+  <script>
+    let src_str = $(".page_text").text();
+    let term = "{{ request.GET.q }}";
+    term = term.replace(/(\s+)/, "(<[^>]+>)*$1(<[^>]+>)*");
+    let pattern = new RegExp("(" + term + ")", "gi");
+
+    src_str = src_str.replace(pattern, "<mark>$1</mark>");
+    src_str = src_str.replace(/(<mark>[^<>]*)((<[^>]+>)+)([^<>]*<\/mark>)/, "$1</mark>$2<mark>$4");
+
+    $(".page_text").html(src_str);
+
+  </script>
+{% endblock extra_js %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %} Get in touch {% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <p>Phone: 1-647-237-6278</p>
+        <p>email: info@sikhnationalacrhives.com</p>
+        <p>Address: 1181 Cecil Ave. Ottawa, ON&nbsp;K1H 7Z6</p>
+        <p>Mailing Address: 781 Mayfield Road, Brampton, ON L7A 0C5</p>
+        <div id="map"></div>
+      </div>
+      <div class="col-lg-6">
+        <form action="" method="post">
+          {% csrf_token %}
+          {{ form }}
+          <button class="btn btn-primary mt-20">Send us a message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+{% block extra_js %}
+
+  <script>
+    // Initialize and add the map
+    function initMap() {
+      // The location of Uluru
+      var uluru = {lat: 45.3802666, lng: -75.6701375};
+      // The map, centered at Uluru
+      var map = new google.maps.Map(
+        document.getElementById('map'), {zoom: 14, center: uluru});
+      // The marker, positioned at Uluru
+      var marker = new google.maps.Marker({position: uluru, map: map});
+    }
+  </script>
+  <!--Load the API from the specified URL
+  * The async attribute allows the browser to render the page while the API loads
+  * The key parameter will contain your own API key (which is not needed for this tutorial)
+  * The callback parameter executes the initMap() function
+  -->
+  <script async defer
+          src="https://maps.googleapis.com/maps/api/js?key={{ google_key }}&callback=initMap">
+  </script>
+
+  {#  <script src="http://maps.google.com/maps/api/js?key={{ google_key }}&language=en-EN" type="text/javascript"></script>#}
+{% endblock extra_js %}

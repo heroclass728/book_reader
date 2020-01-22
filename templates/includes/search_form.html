@@ -1,0 +1,6 @@
+<form action="{% url 'quick_search' %}" class="" role="search">
+  <input class="" placeholder="Title, Author, Topic, Genre, Year, etc." type="text" name="q"
+         value="{{ request.REQUEST.q }}">
+  <button class="btn btn-primary">Search <i class="fa fa-search"></i></button>
+{#  <input value="Search" type="submit" class="search-button hidden-lg hidden-md visible-xs">#}
+</form>

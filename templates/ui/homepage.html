@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+
+  {% include 'includes/image_slider.html' %}
+
+  {% if categories %}
+    <div class="carousel-section">
+      <div class="carousel-section-header">
+        <h2 class="home-h2"><a href="">Browse by Subject</a></h2>
+      </div>
+      <hr>
+      <div class="carousel-container">
+        <div class="carousel" id="categories_carousel">
+          {% for category in categories %}
+            <div class="category-item carousel__item">
+              <a class="category-nostyle" data-ol-link-track="CarouselCategories" href="{% url 'category_detail' category.id %}">
+                <div class="category-icon">
+                  <img class="category-img" src="{{ category.get_icon }}" width="30" height="30"
+                       alt="browse Art books">
+                </div>
+                <p class="category-title">{{ category.name }}</p>
+                <p class="category-count">{{ category.get_book_count }} Books</p>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      window.q.push(function () {
+        Carousel.add('#categories_carousel', 6, 5, 4, 3, 2);
+      });
+    </script>
+  {% endif %}
+
+  {% url 'borrowed_list' as borrowed_url %}
+  {% url 'ebooks_list' as ebooks_url %}
+  {% url 'book_list' as free_to_read_url %}
+  {% url 'returned_list' as returned_url %}
+  {% url 'manuscripts_list' as manuscripts_url %}
+
+  {% include 'includes/book_slider.html' with name='Free to read' books=books show_url=free_to_read_url id=2 %}
+  {% include 'includes/book_slider.html' with name='Manuscripts' books=manuscripts show_url=manuscripts_url id=5 %}
+  {% include 'includes/book_slider.html' with name='Recent E-Books' books=recent show_url=ebooks_url id=1 %}
+  {% include 'includes/book_slider.html' with name='Can be borrowed' books=to_borrow show_url=borrowed_url id=3 %}
+  {% include 'includes/book_slider.html' with name='Recently returned' books=returned show_url=returned_url id=4 %}
+
+  {% for slide in slides %}
+    {% url 'category_detail' slide.subject.id as slide_url %}
+    {% include 'includes/book_slider.html' with name=slide.subject.name books=slide.subject.book_set.all show_url=slide_url id=slide.id %}
+  {% endfor %}
+
+  <div id="home-resources">
+    <div class="head">
+      <h2>About the Project</h2>
+    </div>
+    <div id="home-about">
+      <div id="home-about-mission">
+        <h3 id="home-about-mission-tldr">
+          Established in 1999 as a registered charity, Sikh National Archives of Canada’s (SNAC) mission has
+          been to collect, store and archive historic...
+          <a href="{% url 'page' 1 %}" class="small sansserif">More</a>
+        </h3>
+      </div>
+      <div class="home-resource-section">
+        <h3 class="collapse"><a href="{% url 'blog_list' %}" class="header">Latest Blog Posts</a></h3>
+        <ul id="olBlog">
+          {% for blog in blogs %}
+            <li><a href="{% url 'blog_detail' blog.id %}">{{ blog.name }}</a> - <em>{{ blog.created_at }}</em></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    window.q.push(function () {
+          if('.carousel-public_domain') {
+            Carousel.add(
+              '.carousel-public_domain',
+              6, 5, 4, 3, 2, 1, { // num books per responsive breakpoint
+              });
+          }
+        });
+  </script>
+{% endblock content%}
+

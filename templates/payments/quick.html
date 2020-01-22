@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Make a donation{% endblock title %}
+
+{% block content %}
+
+  <div class="container">
+    <section>
+      <form method="post">
+        {% csrf_token %}
+        <h1 class="h1_heading">You're donating $ <span id="top_amount"></span></h1>
+        <div class="col-lg-12 col-md-12 col-sm-12 donate_top">
+          <h2>Your Gift *</h2>
+
+          <div class="donation_buttons">
+            <div class="col-md-2">
+              <input id="25" class="amount_values" value="25" type="radio" name="amount" hidden/>
+              <label for="25"><span>$25</span></label>
+            </div>
+            <div class="col-md-2">
+              <input id="50" class="amount_values" value="50" type="radio" name="amount" hidden/>
+              <label for="50"><span>$50</span></label>
+            </div>
+            <div class="col-md-2">
+              <input id="100" class="amount_values" value="100" type="radio" name="amount" hidden/>
+              <label for="100"><span>$100</span></label>
+            </div>
+            <div class="col-md-2">
+              <input id="200" class="amount_values" value="200" type="radio" name="amount" hidden/>
+              <label for="200"><span>$200</span></label>
+            </div>
+            <div class="col-md-2">
+              <input id="500" class="amount_values" value="500" type="radio" name="amount" hidden/>
+              <label for="500"><span>$500</span></label>
+            </div>
+            <div class="col-md-2 pt-20">
+              <input class="form-control other_amount" id="id_other_amount" type="number"
+                     name="other_amount" placeholder="Other amount" required>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 donate_top">
+          <h2>Saved payment card:</h2>
+          <hr/>
+          <div class="col-md-12">
+            <h3>**** **** **** {{ user.card_last }} </h3>
+
+          </div>
+          <button class="btn btn-primary mt-20">Make a donation</button>
+        </div>
+
+      </form>
+    </section>
+    <div class="text-center">
+      <img src="{% static 'img/theme/cc-icons1.png' %}" alt="">
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    $('.amount_values').on('change', function(){
+      $('#top_amount').text($(this).val());
+      $('.other_amount').val($(this).val());
+    });
+
+    $('.other_amount').on('change', function(){
+      $('#top_amount').text($(this).val());
+    });
+  </script>
+{% endblock extra_js %}

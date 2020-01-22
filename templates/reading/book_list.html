@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% include page_template %}
+{% load static %}
+
+{% load static %}
+{% block title %}{{ name }}{% endblock title%}
+{% block content %}
+  {% if object_list %}
+    {% include page_template %}
+  {% endif %}
+{% endblock content%}
+
+{% block extra_js %}
+  {{ block.super }}
+  <script src="{% static 'el-pagination/js/el-pagination.js' %}"></script>
+  <script>$.endlessPaginate({paginateOnScroll: true});</script>
+{% endblock extra_js %}

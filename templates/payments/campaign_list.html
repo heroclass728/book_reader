@@ -1,0 +1,86 @@
+{% extends 'clean.html' %}
+{% load static %}
+<title>{% block title %}Campaigns{% endblock title %}</title>
+
+{% block content %}
+  <div class="container donation_campaign">
+    {% if object_list %}
+      {% for campaign in object_list %}
+
+        <div class="well">
+        <p><a class="back_to_campaigns" href="{% url 'home' %}">
+        <i class="fa fa-chevron-left"></i > Back to main website</a></p>
+          <h5>CAMPAIGN</h5>
+          <h1>{{ campaign.name|upper }}</h1>
+        </div>
+        <div class="col-md-3">
+          <h2>${{ campaign.get_raised|default:0 }}</h2>
+          <b>Raised of ${{ campaign.goal }}</b>
+        </div>
+        <div class="col-md-3">
+          <h2>{{ campaign.get_supporters }}</h2>
+          <b>Supporters</b>
+        </div>
+        <div class="col-md-6">
+          <div class="progress mt-20">
+            <div class="progress-bar progress-bar-success" role="progressbar"
+                 aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{ campaign.get_founded_percent }}%">
+            </div>
+          </div>
+          <b>{{ campaign.get_founded_percent|floatformat }}% Founded</b>
+        </div>
+        <div class="col-md-12 mt-40">
+          <h5>Campaign Description</h5>
+          <p>{{ campaign.description }}</p>
+        </div>
+
+        <div class="col-md-12 mt-40">
+          <div class="give_now donate_top">
+            <h1 style="margin-left: 25px;">GIVE NOW</h1>
+            <div class="donation_buttons">
+              <div class="col-md-3">
+                <input id="25" class="amount_values" value="25" type="radio" name="amount" hidden/>
+                <label for="25"><span>$25</span></label>
+              </div>
+              <div class="col-md-3">
+                <input id="50" class="amount_values" value="50" type="radio" name="amount" hidden/>
+                <label for="50"><span>$50</span></label>
+              </div>
+              <div class="col-md-3">
+                <input id="100" class="amount_values" value="100" type="radio" name="amount" hidden/>
+                <label for="100"><span>$100</span></label>
+              </div>
+              <div class="col-md-3">
+                <input id="500" class="amount_values" value="500" type="radio" name="amount" hidden/>
+                <label for="500"><span>$500</span></label>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <input class="form-control other_amount" id="id_other_amount" type="number"
+                     name="other_amount" placeholder="Other amount" required>
+            </div>
+            <div class="col-md-12">
+              <a onclick="return false" class="btn btn-primary payment_details" data-campaign="{{ campaign.id }}">
+                <i class="fa fa-credit-card"></i> Donate Now</a>
+            </div>
+          </div>
+        </div>
+
+      {% endfor %}
+    {% else %}
+      <p class="text-center">Currently we don't have any campaigns</p>
+    {% endif %}
+  </div>
+{% endblock content %}
+{% block extra_js %}
+  <script>
+  $('.amount_values').on('change', function(){
+    $('.other_amount').val($(this).val());
+  });
+  $('.payment_details').on('click', function () {
+    let campaignId = $(this).data('campaign');
+    let amount = $('.other_amount').val();
+    window.location.href = "/donation/campaigns/"+campaignId+'/'+"?amount="+amount;
+  })
+</script>
+{% endblock extra_js %}

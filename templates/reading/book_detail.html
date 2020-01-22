@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ book.name }}{% endblock title %}
+
+{% block extra_css %}
+  <link href="{% static 'css/page-book.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/page-dsnac.css' %}" rel="stylesheet" type="text/css">
+{% endblock extra_css %}
+
+{% block content %}
+
+  <div class="workDetails">
+
+    <div class="editionCover">
+
+      <div class="illustration edition-cover">
+        <div class="coverMagic">
+          <div class="SRPCover bookCover" style="display: block;">
+            <img itemprop="image" src="{{ book.get_cover }}" height="260px" class="cover" alt="Cover of: {{ book.name }}">
+          </div>
+          <div class="SRPCoverBlank" style="display: none;">
+            <div class="innerBorder">
+              <div class="BookTitle">
+                {{ book.name }}
+
+                <div class="Author">
+                  {{ book.creator }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="user-book-options">
+        <div class="Tools tools-override">
+          <small>{{ rating }}</small>
+          <div class="stars_{{ stars }}"></div>
+
+          {% if user.is_authenticated %}
+            {% if user_can_write_a_review %}
+              <form id="ratingsForm" method="POST" action="{% url 'add_review' book.pk %}">
+                {% csrf_token %}
+                <div class="star-messaging">
+                </div>
+                <div class="stars">
+                  <input type="submit" value="1" name="star" class="star-1" id="star-1">
+                  <label class="star star-1 " property="worstRating" for="star-1">1</label>
+                  <input type="submit" value="2" name="star" class="star-2" id="star-2">
+                  <label class="star star-2 " for="star-2">2</label>
+                  <input type="submit" value="3" name="star" class="star-3" id="star-3">
+                  <label class="star star-3 " for="star-3">3</label>
+                  <input type="submit" value="4" name="star" class="star-4" id="star-4">
+                  <label class="star star-4 " for="star-4">4</label>
+                  <input type="submit" value="5" name="star" class="star-5" id="star-5">
+                  <label class="star star-5 " property="bestRating" for="star-5">5</label>
+                  <span></span>
+                </div>
+              </form>
+            {% endif %}
+          {% else %}
+            <a class="write-review fnt-12" href="{% url 'account_login' %}?next={% url 'book_detail' book.slug %}">
+              Login to write a review</a>
+          {% endif %}
+
+          <div class="dropit">
+            <div class="icon list hidetool"></div>
+            <div class="dropper on">
+              <div class="log-work">
+                {% if book_is_borrowed %}
+                  <a href="{% url 'read_book' book.slug %}" class="cta-btn cta-btn--available">Read</a>
+                {% else %}
+                  {{ book.get_action_button|safe }}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="editionAbout">
+      <div class="book-overview section sansserif">
+        <h1 class="work-title" itemprop="name">{{ book.name }}</h1>
+        <h2 class="edition-byline">by {{ book.creator }}</h2>
+
+        <ul class="readers-stats">
+          <li class="reading-log-stat">0 Want to read</li>
+          <li class="reading-log-stat">0 Have read</li>
+        </ul>
+
+        <h4 class="publisher">
+          Published
+          <strong itemprop="datePublished">{{ book.published }}</strong>
+          by {{ book.creator }}
+          {% if book.category %}
+            in
+            <a href="{% url 'category_detail' book.category_id %}" title="Search for subjects about">{{ book.category.name }}</a>
+          {% endif %}
+          <span class="adjust">.</span>
+          <br>Written in <span itemprop="In language">{{ book.get_language_display }}</span>.
+        </h4>
+
+        {% if book.category %}
+          <div class="section link-box">
+            <h6>Subjects</h6>
+            <div><span>
+              {% if book.category %}
+                <a href="{% url 'category_detail' book.category_id %}">{{ book.category.name }}</a>
+              {% endif %}
+              </span></div>
+          </div>
+        {% endif %}
+
+      </div>
+
+      <h3 class="collapse">About the Book</h3>
+
+      <p>{{ book.content }}</p>
+
+      <h3 class="collapse">First Sentence</h3>
+      <p>{{ book.page_set.first.text|truncatechars:100 }}</p>
+
+      {% if book.tags.all %}
+        <div class="section">
+          <dl class="meta">
+            <h3>Tags</h3>
+            {% for tag in book.tags.all %}
+              <dd class="object"><i class="fa fa-tag"></i> <a href="{% url 'tag' tag.id %}">{{ tag }}</a></dd>
+            {% endfor %}
+          </dl>
+        </div>
+      {% endif %}
+
+      <div class="section">
+        <h3>Edition <N></N>otes
+        </h3>
+        <dl class="meta">
+          <dt>Copyright Date</dt>
+          <dd class="object">-</dd>
+        </dl>
+      </div>
+      <div class="section">
+        <dl class="meta">
+          <h3 class="list-header collapse">The Physical Object</h3>
+          <dt>Format</dt>
+          <dd class="object">Hardcover</dd>
+          {% if book.condition %}
+            <dt>Condition</dt>
+            <dd class="object">{{ book.condition }}</dd>
+          {% endif %}
+          {% if book.script %}
+            <dt>Script</dt>
+            <dd class="object">{{ book.script }}</dd>
+          {% endif %}
+          {% if book.sustodian %}
+            <dt>Custodian</dt>
+            <dd class="object">{{ book.custodian }}</dd>
+          {% endif %}
+          <dt>Pagination</dt>
+          <dd class="object">x, {{ book.pages }}</dd>
+          <dt>Number of copies</dt>
+          <dd class="object">{{ book.num_copies }}</dd>
+        </dl>
+      </div>
+      <div class="section">
+        <dl class="meta">
+          <h3 class="list-header collapse">ID Numbers</h3>
+
+          <dt>Open Library</dt>
+          <dd class="object">
+            -
+          </dd>
+          <dt>Internet Archive</dt>
+          <dd class="object">
+            -
+          </dd>
+          <dt>ISBN </dt>
+          <dd class="object" itemprop="isbn">
+            {{ book.isbn }}
+          </dd>
+          <dt>LC Control Number</dt>
+          <dd class="object">
+            -
+          </dd>
+          <dt>Library Thing</dt>
+          <dd class="object">
+            -
+          </dd>
+          <dt>Goodreads</dt>
+          <dd>-</dd>
+        </dl>
+      </div>
+
+    </div>
+    <div class="editionTools">
+      <div class="Tools">
+        <div id="read">
+          <div class="panel">
+            <div class="btn-notice read-options" id="read-options">
+
+              {% if book_is_borrowed %}
+                <a href='{% url 'read_book' book.slug %}' class='cta-btn cta-btn--available'>Read</a>
+              {% else %}
+                <form action="{% url 'add_to_waiting_list' book.pk %}" method="post" id="">
+                  {% csrf_token %}
+                  {{ book.get_action_button|safe }}
+                </form>
+              {% endif %}
+
+
+
+              <p class="read-options-panel__print-disabled-download">
+              </p>
+              <hr>
+              <div class="cta-section">
+                <p>
+                  <span class="cta-section-title">Add to your list</span>
+                </p>
+                <ul class="book-locate-options">
+                  {% if book_in_favorites %}
+                    <li><a class="fnt-12" href="{% url 'user_detail' user.id %}"
+                           title="In yours favorites">In yours favorites</a></li>
+                  {% else %}
+                    <li><a class="worldcat-link fnt-12" href="{% url 'add_favorite' book.id %}"
+                           title="Add to Favorites">Add to Favorites</a></li>
+                  {% endif %}
+                  {% if book_is_borrowed %}
+                    <li><a class="fnt-12" href="{% url 'my_loans' %}"
+                           title="Borrowed">Borrowed by you</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+              <hr>
+              <div class="shareLinks cta-section">
+                <p class="cta-section-title">Share this book</p>
+                <ul class="shareLinks-list">
+                  <li>
+                    <a href="{{ book.get_facebook_share_url }}" class="sansserif large" target="_blank" data-ol-link-track="Share|Facebook"><img title="Share on Facebook" alt="Facebook" class="share-link" src="{% static 'images/facebook.svg' %}"></a>
+                    <div class="share-source">Facebook</div>
+                  </li>
+                  <li>
+                    <a href="{{ book.get_twitter_share_url }}" class="sansserif large" target="_blank" data-ol-link-track="Share|Twitter"><img title="Share on Twitter" alt="Twitter" class="share-link" src="{% static 'images/twitter.svg' %}"></a>
+                    <div class="share-source">Twitter</div>
+                  </li>
+                  <li>
+                    <a href="{{ book.get_pinterest_share_url }}" class="sansserif large" target="_blank" data-ol-link-track="Share|Pinterest"><img title="Share on Pinterest" alt="Pinterest" class="share-link" src="{% static 'images/pinterest.svg' %}"></a>
+                    <div class="share-source">Pinterest</div>
+                  </li>
+                  <li>
+                    <a title="Embed this book in your website" class="embed-work-btn" onclick="">
+                      <img alt="Embed this book" class="share-link" src="{% static 'images/embed.png' %}">
+                    </a>
+                    <div class="share-source">Embed</div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="related-books">
+    <div class="carousel-section-header">
+      {% if book.category %}
+        <h2 class="home-h2"><a href="{% url 'category_detail' book.category_id %}">More by {{ book.category }}</a></h2>
+      {% endif %}
+    </div>
+    {% if book.category %}
+      {% include 'includes/book_slider.html' with name='' books=related show_url=related_url id=1 %}
+    {% endif %}
+  </div>
+
+{% endblock content %}

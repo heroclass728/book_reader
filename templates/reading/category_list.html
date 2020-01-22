@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}All Categories List{% endblock title%}
+{% block content %}
+  {% for category in object_list %}
+    {% url 'category_detail' category.id as the_url %}
+    {% include 'includes/book_slider.html' with name=category books=category.book_set.all show_url=the_url id=forloop.counter %}
+  {% endfor %}
+  {% include 'includes/pagination.html' %}
+{% endblock content%}

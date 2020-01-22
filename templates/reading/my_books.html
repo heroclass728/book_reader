@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ title }} {% endblock title%}
+{% block extra_css %}
+  <link href="{% static 'css/page-user.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+
+  <h2>{{ title }}</h2>
+  <table class="changeHistory">
+    <thead>
+    <tr>
+      <th>Book</th>
+
+      {% if loans %}
+        <th>Expires</th>
+        <th>Action</th>
+      {% else %}
+        <th>Date</th>
+      {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for obj in books %}
+      <tr>
+        <td class="time"><a href="{% url 'book_detail' obj.book.slug %}">
+          {{ obj.book.name }}
+        </a></td>
+        {% if loans %}
+          <td>{{ obj.loan_expires }}</td>
+          <td>
+          <form action="{% url 'return_book' obj.book.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="cta-btn cta-btn--unavailable">Return book</button>
+          </form>
+          </td>
+        {% else %}
+          <td class="comment">{{ obj.book.created_at }}</td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock content %}

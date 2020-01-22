@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ book.name }}</title>
+
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+
+  <!-- mmenu library -->
+  <link rel="stylesheet" href="{% static 'BookReader/mmenu/dist/css/jquery.mmenu.css' %}"/>
+  <link rel="stylesheet" href="{% static 'BookReader/mmenu/dist/addons/navbars/jquery.mmenu.navbars.css' %}"/>
+  <link rel="stylesheet" href="{% static 'BookReader/BookReader.css' %}"/>
+  <link rel="stylesheet" href="{% static 'BookReader/BookReader-ia.css' %}"/>
+  <style>
+    html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
+    #BookReader { width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+  <div id="IABookReaderWrapper">
+     <div id="IABookReaderMessageWrapper" style="display:none;"></div>
+      <div id="BookReader" class="BookReader" ></div>
+  </div>
+
+    <!-- JS dependencies -->
+
+  <script src="{% static 'BookReader/jquery-1.10.1.js' %}"></script>
+  <script src="{% static 'BookReader/jquery-ui-1.12.0.min.js' %}"></script>
+  <script src="{% static 'BookReader/jquery.browser.min.js' %}"></script>
+  <script src="{% static 'BookReader/dragscrollable-br.js' %}"></script>
+  <script src="{% static 'BookReader/jquery.colorbox-min.js' %}"></script>
+  <script src="{% static 'BookReader/jquery.bt.min.js' %}"></script>
+   <!-- BookReader and plugins -->
+  <script src="{% static 'BookReader/BookReader.js' %}"></script>
+ 
+
+  <script src="{% static 'BookReader/mmenu/dist/js/jquery.mmenu.min.js' %}"></script>
+  <script src="{% static 'BookReader/mmenu/dist/addons/navbars/jquery.mmenu.navbars.min.js' %}"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+  <!-- Mobile nav plugin -->
+  <script src="{% static 'BookReader/plugins/plugin.mobile_nav.js' %}"></script>
+ <script src="{% static 'BookReader/plugins/plugin.search.js' %}"></script>
+  
+  <!-- URL-changing plugin -->
+  <script src="{% static 'BookReader/plugins/plugin.url.js' %}"></script>
+
+
+<script>
+  function instantiateBookReader(selector, extraOptions) {
+    extraOptions = extraOptions || {};
+    var options = {
+      data: {{ book.get_pages_as_json|safe }},
+
+      // Book title and the URL used for the book title link
+      bookTitle: '{{ book.name }}',
+      bookUrlTitle: '{{ book.name }}',
+
+      // thumbnail is optional, but it is used in the info dialog
+      thumbnail: '{{ book.get_cover }}',
+      // Metadata is optional, but it is used in the info dialog
+      metadata: [
+        {label: 'Title', value: '{{ book.name }}'},
+        {label: 'Author', value: '{{ book.creator }}'},
+        {label: 'Description', value: '{{ book.content|truncatechars:"100" }}'},
+      ],
+
+      // Override the path used to find UI images
+      imagesBaseURL: '/static/BookReader/images/',
+
+      ui: 'full', // embed, full (responsive)
+
+      el: selector,
+      uiAutoHide: true,
+    };
+    Object.assign(options, extraOptions);
+    var br = new BookReader(options);
+    br.init();
+    window.br  = br;
+  }
+  instantiateBookReader('#BookReader');
+</script>
+<script src="{% static 'js/common.js' %}"></script>
+</body>
+</html>

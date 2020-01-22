@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Sign Up {% endblock %}
+{% block extra_css %}
+  <link href="{% static 'css/page-user.css' %}" rel="stylesheet" type="text/css">
+{% endblock extra_css %}
+
+{% block content_head %}
+  <h1>Sign Up</h1>
+{% endblock %}
+{% block content %}
+  {% if form.errors %}
+    <div class="alert alert-danger">
+      {{ form.errors }}
+    </div>
+  {% endif %}
+  <form id="signup" class="olform create validate" name="signup" method="post" action="">
+    {% csrf_token %}
+    <div class="formElement">
+      <div class="label">
+        <label for="emailAddr">Your email address</label>
+        <span class="smaller lighter"></span>
+      </div>
+      <div class="input">
+        <input type="text" class="required email" name="email" id="emailAddr" value=""/>
+        <span class="invalid clearfix" htmlfor="email"></span>
+      </div>
+    </div>
+    <div class="formElement">
+      <div class="label">
+        <label for="username">Choose a screen name</label>
+        <span class="smaller lighter">Letters and numbers only please, and at least 3 characters.</span>
+      </div>
+      <div class="input">
+        <input type="text" class="required" name="username" id="username" value="" autocapitalize="off"/>
+        <span class="invalid clearfix" htmlfor="username"></span>
+      </div>
+    </div>
+    <div class="formElement">
+      <div class="label">
+        <label for="password">Choose a password</label>
+        <span class="smaller lighter">Letters and numbers only please, and at least 3 characters.</span></div>
+      <div class="input">
+        <input value="" type="password" class="required" name="password1" id="password"/>
+        <span class="invalid clearfix" htmlfor="password"></span>
+      </div>
+    </div>
+    <div class="formElement">
+      <div class="label">
+        <label for="password">Confirm password</label>
+        <span class="smaller lighter">Letters and numbers only please, and at least 3 characters.</span></div>
+      <div class="input">
+        <input value="" type="password" class="required" name="password2" id="password2"/>
+        <span class="invalid clearfix" htmlfor="password2"></span>
+      </div>
+    </div>
+    <div class="formElement bottom">
+      <div class="input">
+        <br/>
+        <button type="submit" name="signup" id="signup" class="larger" title="Sign Up">Sign Up</button>
+        &nbsp;
+        <a href="javascript:history.go(-1);" class="smaller attn">Cancel</a>
+      </div>
+    </div>
+  </form>
+
+{% endblock %}

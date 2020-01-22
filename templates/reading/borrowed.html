@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Books you can borrow{% endblock title%}
+
+{% block extra_css %}
+  <style>
+  .carousel {
+    display: block;
+    padding: 0px 0px;
+  }
+  .carousel__item {
+    margin: 20px 10px;
+  }
+  </style>
+{% endblock extra_css %}
+
+{% block content %}
+
+  <div class="carousel-section">
+    <div class="carousel-section-header">
+            <h2 class="home-h2"><a href="{{ show_url }}">Borrow</a></h2>
+    </div>
+    <div class="carousel-container carousel-container-decorated">
+      <div class="carousel carousel-public_domain">
+
+        {% for book in object_list %}
+          <div class="book carousel__item">
+            <div class="book-cover">
+              <a href="{% url 'book_detail' book.slug %}">
+                <img class="bookcover" width="130" height="200" title="{{ book }}"
+                     src="{{ book.get_cover }}">
+              </a>
+            </div>
+            <div class="book-cta">
+              {% if book.free_to_read %}
+                <a class="cta-btn cta-btn--available " href="{% url 'book_detail' book.slug %}"
+                   data-ol-link-track="public_domain"
+                   title="{{ book }}" data-key="public_domain">Read</a>
+              {% else %}
+                <a class="cta-btn cta-btn--available " href="{% url 'borrow_book' book.id %}"
+                   data-ol-link-track="public_domain"
+                   title="{{ book }}" data-key="public_domain">Borrow</a>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+{% endblock content%}

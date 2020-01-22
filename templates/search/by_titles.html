@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Search books by name or author{% endblock title %}
+{% block extra_css %}
+  <link href="{% static 'css/page-user.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+  <div id="contentBody">
+    <div class="section">
+      <h1>Search by book titles</h1>
+      <p class="small">You can search "{{ query }}" in <a href="/search/?q={{ query }}">inside a book</a></p>
+      <div class="resultsContainer search-results-container">
+        <div id="searchResults">
+          <ul class="list-books" id="siteSearch">
+            {% for book in object_list %}
+              <li class="searchResultItem">
+              <span class="bookcover">
+                <a href="{% url 'book_detail' book.slug %}"><img itemprop="image" src="{{ book.get_cover }}" alt="Cover of: {{ book }}" title="Cover of: {{ book.name }}"></a>
+              </span>
+
+                <span class="details">
+                <span class="resultTitle">
+                   <h3 class="booktitle">
+                     <a itemprop="name" href="" class="results">{{ book.name }}</a>
+                   </h3>
+                </span>
+                <span class="bookauthor">by
+                  <a itemprop="author" href="" class="results">{{ book.creator }}</a>
+                </span>
+                <span class="resultPublisher">
+                  first published in
+                  {{ book.published }}
+                </span>
+
+                </span>
+                <div class="searchResultItemCTA">
+                  <div class="searchResultItemCTA-lending">
+
+                    {{ book.get_action_button|safe }}
+                  </div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% include 'includes/pagination.html' %}
+    </div>
+  </div>
+
+
+{% endblock content %}
