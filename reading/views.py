@@ -290,7 +290,6 @@ def my_loans(request):
 
 
 @csrf_exempt
-@login_required
 def search_word(request):
 
     data = {
